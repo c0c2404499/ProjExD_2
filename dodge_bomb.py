@@ -32,8 +32,9 @@ def check_bound(rct: pg.rect) -> tuple[bool, bool]:
 
 def gameover(screen: pg.Surface) -> None:
     """
-    引数：こうかとんRectと爆弾Rect
+    引数：こうかとんと爆弾が重なっている情報
     戻り値：画像出力
+    画面内にはブラックアウトの画面の上にこうかとんx2とGameoverが表示
     """
     crying_kk_img = pg.image.load("fig/8.png")
     font_go = pg.font.Font(None, 80)
@@ -70,11 +71,6 @@ def main():
     bb_rct.centery = random.randint(0, HEIGHT)
     bb_img.set_colorkey((0, 0, 0))
     vx, vy = +5, +5
-
-    #bb_imgs, bb_accs = init_bb_imgs()
-    #avx = vx*bb_accs[min(tmr//500, 9)]
-    #bb_img = bb_imgs[min(tmr//500, 9)]
-    #bb_img = pg.transform.scale(bb_img, (70, 10))
 
     clock = pg.time.Clock()
     tmr = 0
