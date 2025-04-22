@@ -31,15 +31,19 @@ def check_bound(rct: pg.rect) -> tuple[bool, bool]:
     return yoko, tate
 
 def gameover(screen: pg.Surface) -> None:
+    """
+    引数：こうかとんRectと爆弾Rect
+    戻り値：画像出力
+    """
     crying_kk_img = pg.image.load("fig/8.png")
     font_go = pg.font.Font(None, 80)
     text = font_go.render("Game Over", True, (255, 255, 255))
     black = pg.Surface((WIDTH, HEIGHT))
     black.set_alpha(100)
     screen.blit(black, [0, 0])
-    screen.blit(text, [300, 200])
-    screen.blit(crying_kk_img, [200, 300])
-    screen.blit(crying_kk_img, [800, 200])
+    screen.blit(text, [400, 300])
+    screen.blit(crying_kk_img, [300, 300])
+    screen.blit(crying_kk_img, [750, 300])
     pg.display.update()
     time.sleep(5)
 
