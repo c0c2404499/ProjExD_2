@@ -1,6 +1,7 @@
 import os
 import random
 import sys
+import time
 import pygame as pg
 
 
@@ -29,6 +30,25 @@ def check_bound(rct: pg.rect) -> tuple[bool, bool]:
         tate = False
     return yoko, tate
 
+def gameover(screen: pg.Surface) -> None:
+    crying_kk_img = pg.image.load("fig/8.png")
+    font_go = pg.font.Font(None, 80)
+    text = font_go.render("Game Over", True, (255, 255, 255))
+    black = pg.Surface((WIDTH, HEIGHT))
+    black.set_alpha(100)
+    screen.blit(black, [0, 0])
+    screen.blit(text, [300, 200])
+    screen.blit(crying_kk_img, [200, 300])
+    screen.blit(crying_kk_img, [800, 200])
+    pg.display.update()
+    time.sleep(5)
+
+def init_bb_imgs() -> tuple[list[pg.Surface], list[int]]:
+    bb_accs = [a for a in range(1, 11)]
+    for r in range(1, 11):
+        bb_img = pg.Surface((20*r, 20*r))
+        pg.draw.circle(bb_img, (255, 0, 0), (10*r, 10*r), 10*r)
+
 
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
@@ -47,18 +67,23 @@ def main():
     bb_img.set_colorkey((0, 0, 0))
     vx, vy = +5, +5
 
+    #bb_imgs, bb_accs = init_bb_imgs()
+    #avx = vx*bb_accs[min(tmr//500, 9)]
+    #bb_img = bb_imgs[min(tmr//500, 9)]
+    #bb_img = pg.transform.scale(bb_img, (70, 10))
+
     clock = pg.time.Clock()
     tmr = 0
 
     while True:
         for event in pg.event.get():
-            if event.type == pg.QUIT: 
+            if event.type == pg.QUIT:
                 return
         screen.blit(bg_img, [0, 0]) 
 
         #こうかとんRectと爆弾Rectが重なっていたら
         if kk_rct.colliderect(bb_rct):
-            print("Game Over")
+            gameover(screen)
             return
         
         key_lst = pg.key.get_pressed()
@@ -78,9 +103,11 @@ def main():
         if not tate: #上下どちらかにはみ出ていたら
             vy *= -1
         screen.blit(bb_img, bb_rct) #爆弾の描画
+
+        
         pg.display.update()
         tmr += 1
-        clock.tick(50)
+        clock.tick(60)
 
 
 if __name__ == "__main__":
